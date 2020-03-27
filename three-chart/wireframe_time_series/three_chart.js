@@ -19,9 +19,22 @@ const geometryHeight = 40
 const vertWidth = 40
 const vertHeight = 66
 
+// Create light
+//var ambientLight = new THREE.AmbientLight( 0xaaaaaa );
+//scene.add(ambientLight);
+
+var pointLight = new THREE.PointLight( 0xaaaaaa, 2);
+pointLight.position.set( 1000, 250, 600 );
+pointLight.castShadow = true;
+scene.add( pointLight ); 
+
 // Create mesh
 const geometry = new THREE.PlaneGeometry(geometryWidth, geometryHeight, vertWidth, vertHeight);
-const material = new THREE.MeshNormalMaterial({ wireframe: true }); 
+const material = new THREE.MeshNormalMaterial({ wireframe: true });
+//const material = new THREE.MeshLambertMaterial( { color: 0x0087E6 } );
+//const material = new THREE.MeshPhongMaterial( { color: 0x0087E6, shininess: 100 } );
+//const material = new THREE.MeshStandardMaterial( { color: 0x0087E6} );
+
 const cube = new THREE.Mesh(geometry, material);
 
 cube.position.y = 0;

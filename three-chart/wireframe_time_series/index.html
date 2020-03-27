@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>3D Chart</title>
+        <style>
+            body { 
+                margin: 0; 
+                width: 100%;
+                height: 100%;
+            }
+            canvas { 
+                display: block; 
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="c"></canvas>
+    </body>
+
+    <script src="./js/jquery-3.4.1.js"></script>
+    <script type="module" src="./windowed_data.js"></script>
+    <script type="module" src="./three_chart.js"></script>
+
+    <script type="module">
+
+        import { requestSamples } from "./windowed_data.js"
+        import { getWindowedData } from "./windowed_data.js"
+        import { updateChart } from "./three_chart.js"
+
+        requestSamples(function (result) {
+
+            // Show log
+            //console.log(result)
+
+            //const at = new Date().getTime()
+            getWindowedData(0, result.length, function (data) {
+
+                //const bt = new Date().getTime()
+                //const dt = bt - at
+                //console.log(dt)
+
+//                console.log(data)
+//                console.log(JSON.stringify(data[0]))
+
+                updateChart(data)
+            })
+        })
+
+    </script>
+
+</html>
+

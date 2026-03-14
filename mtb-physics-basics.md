@@ -20,9 +20,7 @@ Weight (W) = mass (M) × gravity (G). But in practical terms, weight is what you
 
 **Drive Force** = Forward propulsion force generated when the rider pedals  
 **Front/Rear Brake Force** = Deceleration forces that are applied when the rider engages the brake levers  
-For further explanation: you cannot brake harder than your tire's grip allows. More specifically, the friction between the tire and the ground is described by:
-
-F = &mu; &times; mg
+For further explanation: you cannot brake harder than your tire's grip allows. More specifically, the friction between the tire and the ground is described by; **F = &mu; &times; mg**
 
 Where:
 - **F** = friction force (maximum braking force)

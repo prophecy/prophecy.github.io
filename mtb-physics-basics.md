@@ -22,13 +22,13 @@ Weight (W) = mass (M) × gravity (G). But in practical terms, weight is what you
 **Front/Rear Brake Force** = Deceleration forces that are applied when the rider engages the brake levers  
 For further explanation: you cannot brake harder than your tire's grip allows. More specifically, the friction between the tire and the ground is described by:
 
-$$F = \mu \times mg$$
+F = &mu; &times; mg
 
 Where:
-- $F$ = friction force (maximum braking force)
-- $\mu$ = coefficient of friction between tire and ground
-- $m$ = mass of bike and rider
-- $g$ = gravitational acceleration (9.8 m/s²)
+- **F** = friction force (maximum braking force)
+- **&mu;** = coefficient of friction between tire and ground
+- **m** = mass of bike and rider
+- **g** = gravitational acceleration (9.8 m/s²)
 
 Then, what will happen if you brake harder than the friction force? Yes, you will skid. The skidding coefficients are normally lower than static friction coefficients. So don't let your bike skid when you don't want to.
 

@@ -12,7 +12,7 @@ Mountain biking on trails is not easy. With dirt, mud, roots, and stones creatin
   <figcaption style="font-size: 0.9em;">The image shows a simplified overview of the key physics forces acting on a mountain bike.</figcaption>
 </figure>
 
-**CoG** = Center of Gravity  
+**CoM** = Center of Mass  
 If forces are applied at the CoG point, the bike will simply move. Otherwise, the forces will make the bike move and rotate at the same time. For example, when you apply the front brake very hard while going fast, you will go over the handlebars (OTB). Or if you pedal hard while shifting your weight back, you can lift the front wheel. Try it.
 
 **Weight** = Gravitational force vector acting downward from the CoG point  

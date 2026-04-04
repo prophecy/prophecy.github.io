@@ -12,4 +12,5 @@
 
 ### MTB Physics
 [MTB Physics Basics](mtb-physics-basics.md)  
+[MTB Physics - The Pitch](mtb-physics-the-pitch.md)  
 

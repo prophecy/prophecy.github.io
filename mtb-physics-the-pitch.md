@@ -7,8 +7,12 @@
 
 If the bike is moving with **velocity (v)** and you apply the front brake (but not too strongly), the braking force is applied while still within the friction limit between the tyres and the ground described by **F<sub>br</sub> ≤ μ × mg**. The brake force makes the bike decelerate by **reducing forward velocity (v)**. However, since the center of gravity **(CoG)** is positioned high, the front brake force also creates a rotational effect on the bike.
 
-In the same way that linear momentum is described by **p = m × v**, rotational motion is described by torque, which is explained by **τ = r × F = r × F<sub>br</sub> × sin(θ)**
+In the same way that linear momentum is described by **p = mv**, rotational motion is described by torque, which is explained by **τ = r F<sub>br</sub> sin(θ)**
 
 **Torque (τ)** can be thought of as "twisting strength" if it is easier for you to imagine.
 
-Todo: add the image explain Torque
+<figure>
+  <img src="mtb-physics/brake-force-to-torque.png" alt="Brake Force to Torque Diagram">
+  <figcaption style="font-size: 0.9em;">Visual representation of how braking force creates torque around the center of gravity, demonstrating the rotational effect on the bike.</figcaption>
+</figure>
+

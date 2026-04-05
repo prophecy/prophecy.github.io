@@ -11,6 +11,6 @@
 [Racing Transponder for Mass](racing-transponder-for-mass.md)
 
 ### MTB Physics
-[MTB Physics Basics](mtb-physics-basics.md)  
-[MTB Physics - The Pitch](mtb-physics-the-pitch.md)  
+[MTB Physics - Basics](mtb-physics-basics.md)  
+[MTB Physics - OTB and front braking](mtb-physics-the-pitch.md)  
 

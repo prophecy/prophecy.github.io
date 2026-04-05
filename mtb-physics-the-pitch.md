@@ -1,8 +1,8 @@
-# MTB Physics - The Pitch
+# MTB Physics - OTB and front braking
 
 <figure>
-  <img src="mtb-physics/mtb-physics-basics.png" alt="Nukeproof Scout Hardtail on Dirt">
-  <figcaption style="font-size: 0.9em;">As shown in the picture, all external forces—driving and braking forces—act at the points where the tyres make contact with the ground. </figcaption>
+  <img src="mtb-physics/somebody-otb.png" alt="Somebody gets over the bar (OTB)">
+  <figcaption style="font-size: 0.9em;">When you brake too much, you will get over the bar (OTB) - but how? MTB is complex, but the easiest explanation may be the front brake.</figcaption>
 </figure>
 
 If the bike is moving with **velocity (v)** and you apply the front brake (but not too strongly), the braking force is applied while still within the friction limit between the tyres and the ground described by **F<sub>br</sub> ≤ μ × mg**. The brake force makes the bike decelerate by **reducing forward velocity (v)**. However, since the center of mass **(CoM)** is positioned high, the front brake force also creates a rotational effect on the bike.

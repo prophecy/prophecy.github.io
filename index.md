@@ -1,7 +1,8 @@
 # To note my knowledge in public
 
 ### Computer Graphics
-[SLERP ฉบับวนิพก พกไว้ใช้ ใช้แล้วหมุน ลื่นนนน~~](cg-slerp-usage.md)
+[SLERP ฉบับวนิพก พกไว้ใช้ ใช้แล้วหมุน ลื่นนนน~~](cg-slerp-usage.md)  
+[Shader programming แบบเบา ๆ](cg-shader-prog-super-soft.md)
 
 ### Simulation
 

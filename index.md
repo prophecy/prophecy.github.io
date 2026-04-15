@@ -5,7 +5,7 @@
 [Shader programming แบบเบา ๆ](cg-shader-prog-super-soft.md)
 
 ## AI
-[Gradient Descent = ออโต้จูน EP. 1](ai-gradient-desent-01.md)
+[Gradient Descent = ออโต้จูน EP. 1](ai-gradient-desent-01.md)  
 [Gradient Descent = ออโต้จูน EP. 2](ai-gradient-desent-02.md)
 
 ## Software Engineering

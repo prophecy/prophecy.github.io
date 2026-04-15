@@ -20,8 +20,6 @@ Shader programming แบบเบา ๆ
   <figcaption style="font-size: 0.9em;">แต่ในโลก 3D ของจริ๊ง ต้องมี polygons กันหน่อย ทางซ้ายเค้าใช้ท่า flat shader ที่ไม่เกลี่ยสี ก็เลยดูเหลี่ยม ๆ ทางขวาใช้ท่า phong shader ที่เอา polygons มาช่วยคำนวนเกลี่ยสี ก็เลยดูเนียน ๆ หน่อย (https://upload.wikimedia.org/wikipedia/commons/3/3d/Phong-shading-sample_%28cropped%29.jpg)</figcaption>
 </figure>
 
-[](https://miro.medium.com/v2/resize:fit:1280/format:webp/0*2jpHFktarRT_vxhU.png)![](https://miro.medium.com/v2/resize:fit:1322/format:webp/0*YpakT6f6THAZaoNk.jpg)
-
 ส่วนเมื่อจะทำงานกับมันนั้น จะมาทรงนี้ครัช
 
 1.  อัพโหลด 3D Model (โครง) ขึ้น GPU

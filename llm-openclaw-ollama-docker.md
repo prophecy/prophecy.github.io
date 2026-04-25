@@ -25,7 +25,7 @@ This guide documents the complete process of setting up a microservice stack wit
 - **Ollama:** Local LLM inference engine
 - **OpenClaw:** Agent framework with web search capabilities  
 - **NVIDIA Container Toolkit:** GPU passthrough for Docker
-- **Docker Compose:** Multi-container orchestration
+- **Docker:** Container Engine
 
 ---
 

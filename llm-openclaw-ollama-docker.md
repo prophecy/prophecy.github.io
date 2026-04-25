@@ -29,6 +29,20 @@ This guide documents the complete process of setting up a microservice stack wit
 
 ---
 
+## Summary Steps
+
+1. **Enable WSL2 + Install Ubuntu** - Set up virtualization in BIOS, enable Windows features, install Ubuntu
+2. **Install Docker Desktop** - Configure WSL2 integration and resource allocation  
+3. **Create Docker Network** - `docker network create ai-stack` for container communication
+4. **Deploy Ollama** - Run with GPU support and download models (Llama 3.2/3.3)
+5. **Deploy OpenClaw** - Configure to connect to Ollama via Docker network
+6. **Authentication** - Extract gateway token and configure providers in OpenClaw UI
+7. **Test & Verify** - Confirm GPU access, model loading, and container communication
+
+**Total Time:** ~30-45 minutes | **VRAM Usage:** 8-12GB | **Disk:** ~10-15GB
+
+---
+
 ## II. Initial Setup
 
 ### 1. Enable WSL2 and Install Ubuntu
@@ -68,64 +82,116 @@ nvidia-smi
 
 ---
 
-## III. Docker Commands & Configuration
+## III. Docker Network Setup (Preferred Method)
 
-### Ollama Container Setup
+### 1. Create Custom Docker Network
+First, create a dedicated network for your containers to communicate:
 
-#### Basic Ollama (CPU-only)
 ```bash
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+# Create the network
+docker network create ai-stack
+
+# Verify network creation
+docker network ls
 ```
 
-#### Ollama with GPU Support (Recommended)
+### 2. Deploy Ollama on Network
+
 ```bash
+# Run Ollama with custom network
 docker run -d \
   --name ollama \
+  --network ai-stack \
   --gpus all \
   -v ollama_data:/root/.ollama \
   -p 11434:11434 \
   -e OLLAMA_HOST=0.0.0.0 \
   ollama/ollama
-```
 
-#### Download and Test Models
-```bash
-# Pull Llama 3.2 (fast, lightweight)
+# Download models
 docker exec -it ollama ollama pull llama3.2
-
-# Pull Llama 3.3 70B (better for agents, uses ~8-10GB VRAM)
 docker exec -it ollama ollama pull llama3.3:70b
-
-# Test model interaction
-docker exec -it ollama ollama run llama3.2 "Say 'Ollama is alive' if you can hear me"
-
-# Check GPU usage while model is running
-docker exec -it ollama nvidia-smi
 ```
 
-### OpenClaw Container Setup
+### 3. Deploy OpenClaw on Same Network
 
-#### Standalone OpenClaw
 ```bash
 # Create required directories
 mkdir -p openclaw-config workspace
 sudo chown -R 1000:1000 openclaw-config workspace
 
-# Run OpenClaw container
+# Run OpenClaw connected to the same network
 docker run -d \
   --name openclaw \
+  --network ai-stack \
   -e OLLAMA_API_KEY="ollama-local" \
-  -e OLLAMA_HOST="http://host.docker.internal:11434" \
+  -e OLLAMA_HOST="http://ollama:11434" \
   -e OPENCLAW_GATEWAY_BIND="lan" \
   -v $(pwd)/openclaw-config:/home/node/.openclaw \
   -v $(pwd)/workspace:/home/node/.openclaw/workspace \
   -p 18789:18789 \
-  --add-host=host.docker.internal:host-gateway \
   --restart unless-stopped \
   ghcr.io/openclaw/openclaw:latest
 ```
 
-### Complete Stack with Docker Compose
+### 4. Deploy Your Business Service
+
+```bash
+# Run your Go/React service on the same network
+docker run -d \
+  --name business-service \
+  --network ai-stack \
+  -e AGENT_URL="http://openclaw:8080" \
+  -p 3000:3000 \
+  your-business-app:latest
+```
+
+### 5. Network Communication Benefits
+
+**Container-to-Container URLs:**
+- Business Service → OpenClaw: `http://openclaw:8080`
+- OpenClaw → Ollama: `http://ollama:11434`
+- Host → Any service: `http://localhost:PORT`
+
+**No host.docker.internal needed** - containers resolve each other by name within the network.
+
+---
+
+## IV. Alternative: Docker Compose (Optional)
+
+For those who prefer declarative configuration:
+
+### Network Management Commands
+
+```bash
+# List all networks
+docker network ls
+
+# Inspect network details
+docker network inspect ai-stack
+
+# Connect existing container to network
+docker network connect ai-stack container_name
+
+# Disconnect container from network
+docker network disconnect ai-stack container_name
+
+# Remove network (containers must be stopped first)
+docker network rm ai-stack
+```
+
+### Testing Network Communication
+
+```bash
+# Test from OpenClaw to Ollama
+docker exec -it openclaw curl http://ollama:11434/api/version
+
+# Test model interaction through network
+docker exec -it ollama ollama run llama3.2 "Say 'Network is working' if you can hear me"
+
+# Check all containers on the network
+docker network inspect ai-stack --format='{{json .Containers}}'
+```
 
 #### docker-compose.yml
 ```yaml
@@ -194,7 +260,7 @@ docker compose down
 
 ---
 
-## IV. Configuration & Authentication
+## V. Configuration & Authentication
 
 ### OpenClaw Configuration
 
@@ -209,8 +275,8 @@ docker exec openclaw cat /home/node/.openclaw/openclaw.json | grep -A 5 "gateway
 # Set Ollama as primary model
 docker exec -it openclaw openclaw config set agents.defaults.model.primary "ollama/llama3.2"
 
-# Set correct Ollama URL
-docker exec -it openclaw openclaw config set models.providers.ollama.baseUrl "http://host.docker.internal:11434"
+# Set correct Ollama URL (using Docker network)
+docker exec -it openclaw openclaw config set models.providers.ollama.baseUrl "http://ollama:11434"
 
 # Pair with Ollama
 docker exec -it openclaw openclaw gateway pair ollama --token ollama-local
@@ -227,7 +293,7 @@ docker exec -it openclaw openclaw models status --probe
 
 ---
 
-## V. Testing & Verification
+## VI. Testing & Verification
 
 ### Container Health Checks
 ```bash
@@ -252,7 +318,7 @@ docker exec -it openclaw curl http://ollama:11434/api/version
 
 ---
 
-## VI. Common Problems & Solutions
+## VII. Common Problems & Solutions
 
 ### Problem 1: "WSL2 not supported with your current machine configuration"
 **Cause:** Virtualization disabled in BIOS
@@ -282,14 +348,21 @@ sudo systemctl restart docker
 
 ### Problem 4: "Ollama could not be reached at http://127.0.0.1:11434"
 **Cause:** Container networking misconfiguration
-**Solution:**
+**Solution with Custom Network:**
 ```bash
-# Restart Ollama with correct host binding
-docker stop ollama && docker rm ollama
-docker run -d --name ollama --gpus all -v ollama:/root/.ollama -p 11434:11434 -e OLLAMA_HOST=0.0.0.0 ollama/ollama
+# Method 1: Restart containers on same network
+docker stop ollama openclaw
+docker rm ollama openclaw
 
-# Update OpenClaw configuration
-docker exec -it openclaw openclaw config set models.providers.ollama.baseUrl "http://host.docker.internal:11434"
+# Create network
+docker network create ai-stack
+
+# Restart with network
+docker run -d --name ollama --network ai-stack --gpus all -v ollama:/root/.ollama -p 11434:11434 -e OLLAMA_HOST=0.0.0.0 ollama/ollama
+docker run -d --name openclaw --network ai-stack -e OLLAMA_HOST="http://ollama:11434" -p 18789:18789 -v $(pwd)/openclaw-config:/home/node/.openclaw ghcr.io/openclaw/openclaw:latest
+
+# Test network communication
+docker exec -it openclaw curl http://ollama:11434/api/version
 ```
 
 ### Problem 5: "No API key found for provider 'openai'"
@@ -317,7 +390,7 @@ sudo userdel ollama
 
 ---
 
-## VII. Docker Management Commands
+## VIII. Docker Management Commands
 
 ### Container Management
 ```bash
@@ -355,7 +428,7 @@ docker run --rm -v ollama_data:/target -v $(pwd):/backup ubuntu tar xzf /backup/
 
 ---
 
-## VIII. Advanced Features
+## IX. Advanced Features
 
 ### Web Search Integration
 OpenClaw can provide internet search capabilities to local models:
@@ -368,22 +441,9 @@ environment:
   - GOOGLE_CSE_ID=...
 ```
 
-### Business Service Integration
-Example Go service communication:
-```go
-// Connect to OpenClaw from your Go service
-func callAgent() {
-    resp, err := http.Get("http://openclaw:8080/v1/chat")
-    if err != nil {
-        log.Fatalf("Couldn't find the agent: %v", err)
-    }
-    // Handle response
-}
-```
-
 ---
 
-## IX. Performance Optimization
+## X. Performance Optimization
 
 ### VRAM Management (RTX 5060 Ti - 16GB)
 - **Llama 3.2 (3B):** ~2GB VRAM
@@ -401,7 +461,7 @@ watch -n 1 nvidia-smi
 
 ---
 
-## X. Troubleshooting Quick Reference
+## XI. Troubleshooting Quick Reference
 
 | Issue | Quick Fix |
 |-------|-----------|

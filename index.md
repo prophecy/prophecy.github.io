@@ -8,6 +8,9 @@
 [Gradient Descent = ออโต้จูน EP. 1](ai-gradient-desent-01.md)  
 [Gradient Descent = ออโต้จูน EP. 2](ai-gradient-desent-02.md)
 
+## LLM
+[OpenClaw-Ollama-Docker Stack: Complete Setup Guide](llm-openclaw-ollama-docker.md)
+
 ## Software Engineering
 [รวมต้นฉบับเอาไว้อ่าน SOLID Principles](solid-principles.md)
 

@@ -1,7 +1,5 @@
 # To note my knowledge in public
 
-<img src="https://profile-counter.glitch.me/prophecy/count.svg" alt="Visitor Count" />
-
 ## Computer Graphics
 [SLERP ฉบับวนิพก พกไว้ใช้ ใช้แล้วหมุน ลื่นนนน~~](cg-slerp-usage.md)  
 [Shader programming แบบเบา ๆ](cg-shader-prog-super-soft.md)

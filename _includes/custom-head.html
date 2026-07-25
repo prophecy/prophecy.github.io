@@ -10,3 +10,53 @@
     y.parentNode.insertBefore(t, y);
   })(window, document, "clarity", "script", "xs3w4tcbq0");
 </script>
+
+<style>
+  .site-visitor-counter {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    line-height: 0;
+  }
+
+  .site-visitor-counter img {
+    display: block;
+    height: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .site-visitor-counter {
+      right: 8px;
+      bottom: 8px;
+      padding: 5px 7px;
+    }
+
+    .site-visitor-counter img {
+      height: 18px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (document.querySelector(".site-visitor-counter")) {
+      return;
+    }
+
+    var counter = document.createElement("div");
+    counter.className = "site-visitor-counter";
+
+    var img = document.createElement("img");
+    img.src = "https://profile-counter.glitch.me/prophecy/count.svg";
+    img.alt = "Visitor Count";
+
+    counter.appendChild(img);
+    document.body.appendChild(counter);
+  });
+</script>
